@@ -1,9 +1,8 @@
 import { MapComponent, mapCommon, map } from '@kit.MapKit';
 import { AsyncCallback, BusinessError } from '@kit.BasicServicesKit';
-import { router } from '@kit.ArkUI';
+import { promptAction } from '@kit.ArkUI';
 import { geoLocationManager } from '@kit.LocationKit';
 import { notificationManager } from '@kit.NotificationKit';
-import { promptAction } from '@kit.ArkUI';
 import vibrator from '@ohos.vibrator'
 
 @Entry
@@ -29,7 +28,7 @@ struct Index {
   private geoFenceRadius: number = 100;
 
   aboutToAppear(): void {
-    const params = router.getParams() as mapCommon.MapOptions
+    const params = this.getUIContext().getRouter().getParams() as mapCommon.MapOptions
     if(params) {
       this.mapOptions = params
     }
@@ -71,7 +70,7 @@ struct Index {
             this.centerMapOnLocation(this.currentLocation);
           }
         }
-        this.mapEventManager.on("mapLoad", callback);
+        this.mapEventManager.on('mapLoad', callback);
       } else {
         console.error(`Failed to initialize the map. Code: ${err.code}; message: ${err.message}`);
       }
@@ -132,12 +131,12 @@ struct Index {
       this.isInsideGeoFence = nowInside;
 
       if (nowInside) {
-        this.showNotification("You are in safe zone!", "You have entered the safe zone again");
+        this.showNotification('You are in safe zone!', 'You have entered the safe zone again');
         this.stopVibration();
       } else {
-        this.showNotification("WARNING!", "DANGER ZONE!");
+        this.showNotification('WARNING!', 'DANGER ZONE!');
         this.startVibration();
-        this.showAlert("WARNING!", "DANGER ZONE");
+        this.showAlert('WARNING!', 'DANGER ZONE');
       }
     }
   }
