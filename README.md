@@ -1,4 +1,4 @@
-> **Note:** To access all shared projects, get information about environment setup, and view other guides, please visit [Explore-In-HMOS-Wearable Index](https://github.com/Explore-In-HMOS-Wearable/hmos-index).
+> **Note:** To access all shared projects, get information about environment setup, and view other guides, please visit 
 
 # Safe Circle
 
@@ -7,9 +7,9 @@ SafeCircle is a geofencing-based application that alerts users with a notificati
 # Preview
 
 <div>
-  <img src="screenshots/ss1.png" width="25%" >
-  <img src="screenshots/ss3.png" width="25%" >
-  <img src="screenshots/ss2.png" width="25%" >
+  <img src="screenshots/ss1.png" width="24%" >
+  <img src="screenshots/ss3.png" width="24%" >
+  <img src="screenshots/ss2.png" width="24%" >
 </div>
 
 # Use Cases
@@ -66,6 +66,3 @@ entry/src/main/ets/
 
 **Safe Circle** is distributed under the terms of the MIT License
 See the [LICENSE](/LICENSE) for more information.
-
-
-

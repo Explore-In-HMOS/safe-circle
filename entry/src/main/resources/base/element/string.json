@@ -1,6 +1,10 @@
 {
   "string": [
     {
+      "name": "app_name",
+      "value": "safe-circle"
+    },
+    {
       "name": "module_desc",
       "value": "module description"
     },

@@ -1,6 +1,6 @@
 {
   "app": {
-    "bundleName": "com.hmosdemos.safecircle",
+    "bundleName": "com.hmosdemos.wearable.safe_circle",
     "vendor": "hmosdemos",
     "versionCode": 1000000,
     "versionName": "1.0.0",

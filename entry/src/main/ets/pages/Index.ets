@@ -5,16 +5,21 @@ import { geoLocationManager } from '@kit.LocationKit';
 import { notificationManager } from '@kit.NotificationKit';
 import vibrator from '@ohos.vibrator'
 
-@Entry
+@Builder
+export function IndexBuilder() {
+  Index()
+}
+
 @Component
 struct Index {
 
+  @Consume pathStack: NavPathStack
   private mapOptions: mapCommon.MapOptions | null = null;
   private callback?: AsyncCallback<map.MapComponentController>;
   private mapController?: map.MapComponentController;
   private mapEventManager?: map.MapEventManager;
-  @State currentLocation: geoLocationManager.Location | null = null;
-  @State vibrationInterval: number | undefined = undefined;
+  private currentLocation: geoLocationManager.Location | null = null;
+  private vibrationInterval: number | undefined = undefined;
   private locationRequest: geoLocationManager.LocationRequest = {
     priority: geoLocationManager.LocationRequestPriority.ACCURACY,
     timeInterval: 0,
@@ -28,10 +33,6 @@ struct Index {
   private geoFenceRadius: number = 100;
 
   aboutToAppear(): void {
-    const params = this.getUIContext().getRouter().getParams() as mapCommon.MapOptions
-    if(params) {
-      this.mapOptions = params
-    }
 
     this.locationChangeCallback = (location: geoLocationManager.Location) => {
       this.currentLocation = location;
@@ -82,7 +83,7 @@ struct Index {
       const cameraPosition: mapCommon.CameraPosition = {
         target: {
           latitude: location.latitude,
-          longitude: location.longitude,
+          longitude: location.longitude
         },
         zoom: 15,
         tilt: 0,
@@ -116,7 +117,9 @@ struct Index {
   }
 
   private checkGeoFenceStatus(location: geoLocationManager.Location): void {
-    if (!this.geoFenceCenter) return;
+    if (!this.geoFenceCenter) {
+      return;
+    }
 
     const distance = this.calculateDistance(
       location.latitude,
@@ -179,15 +182,8 @@ struct Index {
 
   private async showAlert(title: string, message: string): Promise<void> {
     try {
-      await promptAction.showDialog({
-        title: title,
-        message: message,
-        buttons: [
-          {
-            text: 'OK',
-            color: '#007AFF'
-          }
-        ]
+      await promptAction.openToast({
+        message: message
       });
       this.stopVibration();
     } catch (error) {
@@ -210,8 +206,14 @@ struct Index {
   }
 
   build() {
-    Stack() {
-      MapComponent({ mapOptions: this.mapOptions!, mapCallback: this.callback }).width('100%').height('100%');
-    }.height('100%')
+    NavDestination() {
+      Stack() {
+        MapComponent({ mapOptions: this.mapOptions!, mapCallback: this.callback }).width('100%').height('100%');
+      }.height('100%')
+    }.onReady((context: NavDestinationContext) => {
+      this.pathStack = context.pathStack
+      this.mapOptions = context.pathInfo.param as mapCommon.MapOptions
+    })
+    .hideTitleBar(true)
   }
 }
